@@ -20,20 +20,35 @@ public sealed class GameManager : NetworkBehaviour
     [SyncVar]
     public bool canstart; //can only update syncvars in server
 
+    [SyncVar]
+    public bool started;
+
     private void Awake()
     {
         Instance = this;
+        started = false;
     }
 
 
     private void Update()
     {
+
+
+
+
         if (!IsServer) return; //if not the server exit immeditly
 
 
         canstart = players.All(player => player.isReady); //itterate over a collection and iff all items match condition it returns true, so if all players ready this is true
 
-        
+
+        //in future fix this xddd
+        if (canstart == true && started == false)
+        {
+            StartGame();
+
+            
+        }
 
         //Debug.Log($"Can Start = {canstart}");
     }
@@ -47,8 +62,11 @@ public sealed class GameManager : NetworkBehaviour
         for (int i = 0; i < players.Count; i++)
         {
             players[i].StartGame(Playerspawns[i]);
+            Enemey_Manager.Instance.start = true;
+            started = true;
         }
-        Enemey_Manager.Instance.start = true;
+       
+        
     }
 
     [Server] //only executed in server  since game manager is run on server

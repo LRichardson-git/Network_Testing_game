@@ -28,7 +28,7 @@ public sealed class PawnInput : NetworkBehaviour //sake of simplicity
     }
 
 
-
+    //get inputs
     private void Update()
     {
         if (!IsOwner) return;

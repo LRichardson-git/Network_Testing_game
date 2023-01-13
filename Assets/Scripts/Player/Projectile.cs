@@ -22,10 +22,7 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-
-
         dir = rb.velocity;
-
 
     }
     // Check for wall collisions
@@ -35,10 +32,15 @@ public class Projectile : MonoBehaviour
         {
             // Reflect the projectile
             var speed = dir.magnitude;
-           // var Direct = Vector2.Reflect(dir.normalized, collision);
-            // Destroy projectile if reached max bounces
-           // bounces--;
-           // rb.velocity = Direct * Mathf.Max(speed, 0f);
+
+            //allowed projtiles to bounce
+            /*
+            var Direct = Vector2.Reflect(dir.normalized, collision);
+             Destroy projectile if reached max bounces
+            bounces--;
+           rb.velocity = Direct * Mathf.Max(speed, 0f);
+            */
+
 
             if (collision.gameObject.CompareTag("Enemy"))
                 Hit(collision.gameObject);
@@ -51,9 +53,10 @@ public class Projectile : MonoBehaviour
     }
 
     
+    //hit enemey
     void Hit(GameObject collision)
     {
-        Debug.Log("test");
+       // Debug.Log("test");
         collision.GetComponent<Enemy>().RecieveDamage(damage);
         
         Destroy(gameObject);

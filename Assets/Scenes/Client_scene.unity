@@ -492,10 +492,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 950215115}
-  - component: {fileID: 950215112}
   - component: {fileID: 950215116}
   - component: {fileID: 950215117}
-  - component: {fileID: 950215118}
+  - component: {fileID: 950215120}
+  - component: {fileID: 950215119}
+  - component: {fileID: 950215121}
   m_Layer: 0
   m_Name: Network_Manager
   m_TagString: Untagged
@@ -503,21 +504,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &950215112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 950215111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 211a9f6ec51ddc14f908f5acc0cd0423, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 744897302620933652, guid: 72f65c11b67d75744ab40f0fda14cd8e, type: 3}
-  _addToDefaultScene: 0
-  Spawns: []
 --- !u!4 &950215115
 Transform:
   m_ObjectHideFlags: 0
@@ -566,7 +552,43 @@ MonoBehaviour:
   _persistence: 0
   _logging: {fileID: 0}
   _spawnablePrefabs: {fileID: 11400000, guid: ec64eb18c93ab344892891f33edbf82a, type: 2}
---- !u!114 &950215118
+--- !u!114 &950215119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950215111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68828c85278210948b9d50a8db3aab74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _authenticator: {fileID: 0}
+  SpawnPacking:
+    Position: 0
+    Rotation: 2
+    Scale: 2
+  _changeFrameRate: 1
+  _frameRate: 144
+  _shareIds: 1
+  _startOnHeadless: 0
+  _limitClientMTU: 1
+--- !u!114 &950215120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950215111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aca43cf6f20e77c4f8fcc078fd85081f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _changeFrameRate: 1
+  _frameRate: 144
+--- !u!114 &950215121
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -583,8 +605,8 @@ MonoBehaviour:
   _ipv4BindAddress: 
   _ipv6BindAddress: 
   _port: 13306
-  _maximumClients: 4095
-  _clientAddress: 52.47.100.5
+  _maximumClients: 4
+  _clientAddress: 52.47.88.150
   _timeout: 15
 --- !u!1 &1258580638
 GameObject:

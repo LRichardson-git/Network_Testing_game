@@ -12,7 +12,7 @@ public sealed class Enemy_Movement : NetworkBehaviour
     float speed = 5f;
     // Start is called before the first frame update
     Vector3 dir;
-    float angle;
+    float angle = 0f;
 
     //temp audio
     //public AudioSource Audio;
@@ -29,6 +29,9 @@ public sealed class Enemy_Movement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if(!IsServer)
+            return;
 
         //go towards the player
 

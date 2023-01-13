@@ -26,16 +26,16 @@ public sealed class LobbyView_ : View
         
 
         
-            StartGameButton.onClick.AddListener(() => GameManager.Instance.StartGame()); //no check since button is disabled for not hosts
+        StartGameButton.onClick.AddListener(() => GameManager.Instance.StartGame()); //no check since button is disabled for not hosts
 
-            StartGameButton.gameObject.SetActive(true);
+        StartGameButton.gameObject.SetActive(true);
 
         
       
 
 
         
-
+        //add buttons
         toggleReadyButton.onClick.AddListener(() => Player_.LocalInstance.ServerSetIsReady(!Player_.LocalInstance.isReady));
         ToggleBodyColor.onClick.AddListener(() => Player_.LocalInstance.ControlledPawn.GetComponent<Lobby_Pawn>().RandomBodyColor());
         ToggleGunColor.onClick.AddListener(() => Player_.LocalInstance.ControlledPawn.GetComponent<Lobby_Pawn>().RandomGunColor());

@@ -113,7 +113,7 @@ public class Enemey_Manager : NetworkBehaviour
             enemies.Add(enemyInstantce);
         }
 
-        Audio.Play(0);
+       // Audio.Play(0);
     }
 
     [ServerRpc]

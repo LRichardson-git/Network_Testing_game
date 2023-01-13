@@ -21,14 +21,18 @@ public class Enemy_Input : NetworkBehaviour
 
     public void FindClosestPlayer()
     {
+
+      
+
+
         //calulate distant between players
-        float dist = Vector2.Distance(GameManager.Instance.players[0].controlledObject.transform.position, transform.position);
+        float dist = 1f;
         ClosestPlayer = GameManager.Instance.players[0].controlledObject;
-        if (GameManager.Instance.players.Count > 1)
+        if (GameManager.Instance.players.Count > 0)
         {
-            for (int i = 1; i < GameManager.Instance.players.Count; i++)
+            for (int i = 0; i < GameManager.Instance.players.Count; i++)
             {
-                if (Vector2.Distance(GameManager.Instance.players[i].controlledObject.transform.position, transform.position) < dist)
+                if (GameManager.Instance.players[i].controlledObject != null && Vector2.Distance( GameManager.Instance.players[i].controlledObject.transform.position, transform.position) < dist )
                 {
                     //choose the closest player character 
                     dist = Vector2.Distance(GameManager.Instance.players[i].controlledObject.transform.position, transform.position);

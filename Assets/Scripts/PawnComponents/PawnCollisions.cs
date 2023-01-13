@@ -15,7 +15,11 @@ public class PawnCollisions : NetworkBehaviour
         {
             AudioSource.PlayClipAtPoint(tookdamage, transform.position);
             GetComponent<Pawn>().RecieveDamage(20);
-            
+
+            //knockback, dosent really work
+            Vector2 enemydir = collision.gameObject.transform.position - transform.position;
+            enemydir.Normalize();
+            GetComponent<Rigidbody2D>().AddForce(-enemydir * 20);
         }
     }
 }
