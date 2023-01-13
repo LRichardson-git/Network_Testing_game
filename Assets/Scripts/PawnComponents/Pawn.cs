@@ -14,7 +14,6 @@ public sealed  class Pawn : NetworkBehaviour
 
 
 
-
     internal void RecieveDamage(float damage) //called in a server RPC in weapon
     {
         if (!IsSpawned) return;

@@ -32,7 +32,12 @@ public sealed class PawnWeapon : NetworkBehaviour
     [SerializeField]
     private Transform Gun;
 
+    Quaternion CamRotation;
 
+    
+    private GameObject enemi;
+
+    public AudioClip fire;
 
     
     public override void OnStartNetwork()
@@ -44,8 +49,11 @@ public sealed class PawnWeapon : NetworkBehaviour
         _Input = GetComponent<PawnInput>();
 
         _Camera = GetComponent<PawnCamera>().myCamera.GetComponent<Camera>();
+        CamRotation = _Camera.transform.rotation;
 
         Projectile = Addressables.LoadAssetAsync<GameObject>("Projectile").WaitForCompletion();
+        
+
     }
 
 
@@ -61,15 +69,31 @@ public sealed class PawnWeapon : NetworkBehaviour
         {
             if (_Input.fire)
             {
-                ServerFire(FirePoint.position, FirePoint.right);
-                
+                //ServerFire(FirePoint.position, FirePoint.right);
+                //request server RPC func so that non server clients request the server to run this code
+                ServerFire();
+                //ServerSpawnEnemy();
                 _TimeUntilNextShot = RateOfFire;
             }
         }
         else
             _TimeUntilNextShot -= Time.deltaTime;
+
+        //if (_Input.fire2)
+            
+
     }
 
+
+
+
+    //Keep the cameras rotation as constant
+    void UpdateCameraRotation()
+    {
+
+        _Camera.transform.rotation = CamRotation;
+
+    }
 
     private void UpdateRotation()
     {
@@ -87,16 +111,20 @@ public sealed class PawnWeapon : NetworkBehaviour
     {
         GameObject ProjectileInstance = Instantiate(Projectile, FirePoint.position, Gun.rotation);
         Spawn(ProjectileInstance);
+        //ProjectileInstance.GetComponent<Rigidbody2D>().AddForce(new Vector2(Rotation.x * 0.01f, Rotation.y * 0.01f));
+        AudioSource.PlayClipAtPoint(fire, FirePoint.position);
     }
 
-
+    
     [ServerRpc]
-    private void ServerFire(Vector2 FirPointPos, Vector2 firepointdirection) //fine to use server transform but better to use parameter to make sure
+    private void ServerFire() //fine to use server transform but better to use parameter to make sure
     {
 
-        ShootProjectile();
-       
+        ShootProjectile(); //this is run on server and then all slients becasue overserverRPC
 
+
+       /*
+       old
         RaycastHit2D hit = Physics2D.Raycast(FirPointPos, firepointdirection);
         if (hit.collider != null && hit.transform.TryGetComponent(out Pawn pawn))  //check if raycast hit anything
         {
@@ -106,6 +134,22 @@ public sealed class PawnWeapon : NetworkBehaviour
 
         Debug.Log("line");
         Debug.DrawLine(new Vector3(0, 0, 0), new Vector3(10,0,0), Color.green, 10f);
+       */
+    }
+
+
+    [ServerRpc]
+    private void ServerSpawnEnemy()
+    {
+        SpawnEnemey();
 
     }
+    [ObserversRpc]
+    private void SpawnEnemey()
+    {
+        GameObject Enemey = Instantiate(enemi, new Vector3(-3f, -2f, 0f), Gun.rotation);
+        Spawn(Enemey);
+    }
+    
 }
+

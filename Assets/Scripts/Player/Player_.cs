@@ -18,6 +18,9 @@ public class Player_ : NetworkBehaviour // monobehabour that is networked
     [SyncVar]
     public Pawn ControlledPawn;
 
+    [SyncVar]
+    public GameObject controlledObject;
+
     //dont need to be sync vars atm maybe in the future, since only local player needs to know
     Color MatColorP;
     Color GunColorP;
@@ -89,7 +92,9 @@ public class Player_ : NetworkBehaviour // monobehabour that is networked
       
         
 
-        Spawn(PawnInstance, Owner); 
+        Spawn(PawnInstance, Owner);
+
+        controlledObject = PawnInstance;
 
         ControlledPawn = PawnInstance.GetComponent<Pawn>(); //can get pawn instance anytime
 

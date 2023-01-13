@@ -48,6 +48,7 @@ public sealed class GameManager : NetworkBehaviour
         {
             players[i].StartGame(Playerspawns[i]);
         }
+        Enemey_Manager.Instance.start = true;
     }
 
     [Server] //only executed in server  since game manager is run on server

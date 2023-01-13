@@ -25,15 +25,13 @@ public sealed class LobbyView_ : View
 
         
 
-        if (InstanceFinder.IsHost)
-        {
+        
             StartGameButton.onClick.AddListener(() => GameManager.Instance.StartGame()); //no check since button is disabled for not hosts
 
             StartGameButton.gameObject.SetActive(true);
 
-        }
-        else
-            StartGameButton.gameObject.SetActive(false);
+        
+      
 
 
         

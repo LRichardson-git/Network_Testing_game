@@ -30,7 +30,7 @@ public sealed class PawnMovement : NetworkBehaviour
 
     private Vector2 Velocity_;
 
-
+    public AudioSource audio;
 
     public override void OnStartNetwork() // on spawn
     {
@@ -49,40 +49,20 @@ public sealed class PawnMovement : NetworkBehaviour
 
         if (!IsOwner) return;
 
-        transform.position += new Vector3(_input.horizontal, 0, 0) * Time.deltaTime * Speed;
+        transform.position += new Vector3(_input.horizontal, _input.vertical, 0) * Time.deltaTime * Speed;
 
 
-
-        if (_input.jump == true && Mathf.Abs(_RigidBody2d.velocity.y) < 0.001f && jumping == false)
-        {
-            _RigidBody2d.AddForce(new Vector2(0, JumpSpeed), ForceMode2D.Impulse);
-            Debug.Log("loop");
-            jumping = true;
-        }
-
-        if (Mathf.Abs(_RigidBody2d.velocity.y) < 0.001f)
-            jumping = false;
-
-        if (jumping == true)
-        {
-            var Vel = _RigidBody2d.velocity;
-            Jump(Vel);
-        }
-
-        
-
-        if (_input.mouseX > 0)
-            transform.localScale = new Vector3(1f, 1f, 1f);
+        if (_input.horizontal != 0 || _input.vertical != 0)
+            audio.enabled = true;
         else
-            transform.localScale = new Vector3(-1f, 1f, 1f);
+            audio.enabled = false;
 
-
-
+        /*
         if (_input.horizontal != 0)
             _animtor.SetFloat("speed", 1);
         else
             _animtor.SetFloat("speed", 0);
-
+        */
 
 
     }

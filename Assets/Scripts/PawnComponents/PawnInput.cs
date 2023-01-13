@@ -16,6 +16,7 @@ public sealed class PawnInput : NetworkBehaviour //sake of simplicity
 
     public bool jump;
     public bool fire;
+    public bool fire2;
 
 
     // do not need to synco input (obviously) so no sync vars
@@ -41,6 +42,7 @@ public sealed class PawnInput : NetworkBehaviour //sake of simplicity
         jump = Input.GetButton("Jump");
 
         fire = Input.GetButton("Fire1");
+        fire2 = Input.GetButton("Fire2");
 
         MousePos = Input.mousePosition;
 
