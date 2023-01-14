@@ -5,7 +5,6 @@ public class Projectile : MonoBehaviour
     public float speed = 5f;
     public int bounces = 3;
     Vector2 dir;
-    Quaternion rot;
     Rigidbody2D rb;
     public int damage = 50;
     private void Start()

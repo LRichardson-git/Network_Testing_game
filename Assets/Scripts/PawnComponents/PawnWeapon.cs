@@ -3,43 +3,31 @@ using FishNet.Object;
 using UnityEngine.AddressableAssets;
 public sealed class PawnWeapon : NetworkBehaviour
 {
+    [SerializeField]
+    public GunData CurrentGun;
+    
+
+    //data
     private Pawn _Pawn;
-
     private PawnInput _Input;
-
     private Camera _Camera;
-
     private Quaternion Rotation;
-
-
     private GameObject Projectile;
 
-
-    [SerializeField]
-    private float damage;
-
-    [SerializeField]
-    private float RateOfFire;
-
     private float _TimeUntilNextShot;
-
-    [SerializeField]
-    private GameObject test;
 
     [SerializeField]
     private Transform FirePoint;
 
     [SerializeField]
-    private Transform Gun;
+    private GameObject Gun;
 
-    Quaternion CamRotation;
+    private PawnInventory _Inventory;
 
-    
-    private GameObject enemi;
-
-    public AudioClip fire;
 
     
+    
+    //initilize component
     public override void OnStartNetwork()
     {
         base.OnStartNetwork();
@@ -49,8 +37,9 @@ public sealed class PawnWeapon : NetworkBehaviour
         _Input = GetComponent<PawnInput>();
 
         _Camera = GetComponent<PawnCamera>().myCamera.GetComponent<Camera>();
-        CamRotation = _Camera.transform.rotation;
 
+        _Inventory = GetComponent<PawnInventory>();
+    
         Projectile = Addressables.LoadAssetAsync<GameObject>("Projectile").WaitForCompletion();
         
 
@@ -67,38 +56,43 @@ public sealed class PawnWeapon : NetworkBehaviour
 
         if (_TimeUntilNextShot <= 0.0f)
         {
-            if (_Input.fire)
+            if (_Input.fire && CurrentGun.currentammo > 0)
             {
-                //ServerFire(FirePoint.position, FirePoint.right);
-                //request server RPC func so that non server clients request the server to run this code
                 ServerFire();
-                //ServerSpawnEnemy();
-                _TimeUntilNextShot = RateOfFire;
+                CurrentGun.currentammo--;
+                _TimeUntilNextShot = CurrentGun.firerate;
+
+                if (CurrentGun.currentammo <= 0 )
+                {
+                    //start animation
+                    Invoke("reload", CurrentGun.reloadTime);
+
+                }
+                
             }
         }
         else
-            _TimeUntilNextShot -= Time.deltaTime;
-
-        //if (_Input.fire2)
-            
+            _TimeUntilNextShot -= Time.deltaTime; 
 
     }
 
 
 
-
-    //Keep the cameras rotation as constant
-    void UpdateCameraRotation()
+    private void reload()
     {
+        
 
-        _Camera.transform.rotation = CamRotation;
 
     }
+
+
+
+
 
     private void UpdateRotation()
     {
-
-        Vector2 dir = _Input.MousePos - _Camera.WorldToScreenPoint(Gun.position);
+        //keep gun rotation looking at mouse
+        Vector2 dir = _Input.MousePos - _Camera.WorldToScreenPoint(Gun.transform.position);
         var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         Rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         Gun.transform.rotation = Rotation;
@@ -109,47 +103,21 @@ public sealed class PawnWeapon : NetworkBehaviour
     [ObserversRpc]
     private void ShootProjectile()
     {
-        GameObject ProjectileInstance = Instantiate(Projectile, FirePoint.position, Gun.rotation);
+        GameObject ProjectileInstance = Instantiate(Projectile, FirePoint.position, Gun.transform.rotation);
+        ProjectileInstance.GetComponent<Projectile>().damage = CurrentGun.damage;
+        ProjectileInstance.GetComponent<Projectile>().speed = CurrentGun.speed;
         Spawn(ProjectileInstance);
-        //ProjectileInstance.GetComponent<Rigidbody2D>().AddForce(new Vector2(Rotation.x * 0.01f, Rotation.y * 0.01f));
-        AudioSource.PlayClipAtPoint(fire, FirePoint.position);
+        AudioSource.PlayClipAtPoint(CurrentGun.fire, FirePoint.position);
     }
 
-    
+
     [ServerRpc]
     private void ServerFire() //fine to use server transform but better to use parameter to make sure
     {
 
         ShootProjectile(); //this is run on server and then all slients becasue overserverRPC
 
-
-       /*
-       old
-        RaycastHit2D hit = Physics2D.Raycast(FirPointPos, firepointdirection);
-        if (hit.collider != null && hit.transform.TryGetComponent(out Pawn pawn))  //check if raycast hit anything
-        {
-            pawn.RecieveDamage(damage);
-        }
-
-
-        Debug.Log("line");
-        Debug.DrawLine(new Vector3(0, 0, 0), new Vector3(10,0,0), Color.green, 10f);
-       */
     }
 
-
-    [ServerRpc]
-    private void ServerSpawnEnemy()
-    {
-        SpawnEnemey();
-
-    }
-    [ObserversRpc]
-    private void SpawnEnemey()
-    {
-        GameObject Enemey = Instantiate(enemi, new Vector3(-3f, -2f, 0f), Gun.rotation);
-        Spawn(Enemey);
-    }
-    
 }
 
