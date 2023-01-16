@@ -19,6 +19,7 @@ public class GunData : ScriptableObject {
     public float firerate;
     public float timetoreload;
 
+
     [HideInInspector]
     public int reloadTime;
 
@@ -26,6 +27,15 @@ public class GunData : ScriptableObject {
     [Header("sounds")]
     public AudioClip fire;
 
+
+    [SerializeField]
+    public Gun_Data_ track;
+
+    private void Awake()
+    {
+       // track.totalammo = currentammo;
+       // track.ammo = currentammo;
+    }
 
 
 }

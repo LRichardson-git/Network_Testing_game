@@ -7,14 +7,16 @@ public class ItemScript : ScriptableObject
 
 
     [Header("gameplay")]
-    public GameObject Item;
     public itemtype type;
+    public GunData gundata;
 
     [Header("UI")]
     public bool stackable = true;
 
     public Sprite icon;
 
+    public Gun_Data_ gun;
+  
 }
    public enum itemtype
     {

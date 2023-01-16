@@ -4,7 +4,7 @@ using UnityEngine.AddressableAssets;
 public sealed class PawnWeapon : NetworkBehaviour
 {
     [SerializeField]
-    public GunData CurrentGun;
+    public Gun_Data_ CurrentGun;
     
 
     //data
@@ -22,7 +22,7 @@ public sealed class PawnWeapon : NetworkBehaviour
     [SerializeField]
     private GameObject Gun;
 
-    private PawnInventory _Inventory;
+    private Inventory_Manager _Inventory;
 
 
     
@@ -38,9 +38,11 @@ public sealed class PawnWeapon : NetworkBehaviour
 
         _Camera = GetComponent<PawnCamera>().myCamera.GetComponent<Camera>();
 
-        _Inventory = GetComponent<PawnInventory>();
-    
+
+        _Inventory = Inventory_Manager.instance;
         Projectile = Addressables.LoadAssetAsync<GameObject>("Projectile").WaitForCompletion();
+
+    
         
 
     }
@@ -52,17 +54,32 @@ public sealed class PawnWeapon : NetworkBehaviour
 
         if (!IsOwner) return;
 
+        if (_Inventory.GetselectedItem(false) != null && _Inventory.GetselectedItem(false).type != itemtype.Weapon)
+        {
+            Gun.SetActive(false);
+            return;
+        }
+        else
+            Gun.SetActive(true);
+
+        CurrentGun = _Inventory.GetweaponData();
+        
+
         UpdateRotation();
 
+
+      
+
+        
         if (_TimeUntilNextShot <= 0.0f)
         {
-            if (_Input.fire && CurrentGun.currentammo > 0)
+            if (_Input.fire && CurrentGun.ammo > 0)
             {
                 ServerFire();
-                CurrentGun.currentammo--;
+                CurrentGun.ammo--;
                 _TimeUntilNextShot = CurrentGun.firerate;
 
-                if (CurrentGun.currentammo <= 0 )
+                if (CurrentGun.ammo <= 0 )
                 {
                     //start animation
                     Invoke("reload", CurrentGun.reloadTime);
@@ -80,12 +97,20 @@ public sealed class PawnWeapon : NetworkBehaviour
 
     private void reload()
     {
-        
 
+        CurrentGun.updateAmmo();
+        CurrentGun.reload();
+        CurrentGun.updateAmmo();
 
     }
 
 
+    public int updateammo()
+    {
+
+        return 1;
+        
+    }
 
 
 
@@ -96,6 +121,13 @@ public sealed class PawnWeapon : NetworkBehaviour
         var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         Rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         Gun.transform.rotation = Rotation;
+
+
+
+        if (_Input.mouseX > 1000)
+            Gun.transform.localScale = new Vector3(1.6f, 2.17248f, 1f);
+        else if (_Input.mouseX < 1000)
+            Gun.transform.localScale = new Vector3(1.6f, -2.17248f, 1f);
     }
 
 
@@ -107,7 +139,7 @@ public sealed class PawnWeapon : NetworkBehaviour
         ProjectileInstance.GetComponent<Projectile>().damage = CurrentGun.damage;
         ProjectileInstance.GetComponent<Projectile>().speed = CurrentGun.speed;
         Spawn(ProjectileInstance);
-        AudioSource.PlayClipAtPoint(CurrentGun.fire, FirePoint.position);
+       // AudioSource.PlayClipAtPoint(CurrentGun.fire, FirePoint.position);
     }
 
 

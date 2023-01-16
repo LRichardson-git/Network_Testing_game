@@ -1,9 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class Inventory_Manager : MonoBehaviour
 {
+
+    public static Inventory_Manager instance;
+    
+    public ItemScript[] startItems;
+
+
+
 
     public InventorySlot[] inventorySlots;
     public GameObject InvItemPrefab;
@@ -11,6 +17,21 @@ public class Inventory_Manager : MonoBehaviour
     public int stacklimit = 8;
 
     int SelectedSlot = -1; //nothing slected as default
+
+    public void Awake()
+    {
+        instance = this;
+    }
+
+    private void Start()
+    {
+        changeselectedslot(0);
+        foreach (var item in startItems)
+        {
+            addItem(item);
+        }
+    }
+
     public bool addItem(ItemScript item)
     {
 
@@ -20,8 +41,9 @@ public class Inventory_Manager : MonoBehaviour
             InventorySlot slot = inventorySlots[i];
             Inventory_Item iteminslot = slot.GetComponentInChildren<Inventory_Item>(); //check to see if child has item
             //no item in slot
-            if (iteminslot != null && iteminslot == item && iteminslot.count < stacklimit &&iteminslot.item.stackable == true)
+            if (iteminslot != null && iteminslot.item == item && iteminslot.count < stacklimit && iteminslot.item.stackable == true)
             {
+                Debug.Log("test");
                 iteminslot.count++;
                 iteminslot.refreshCount();
                 return true;
@@ -68,6 +90,12 @@ public class Inventory_Manager : MonoBehaviour
 
         inventorySlots[newValue].Select();
         SelectedSlot = newValue;
+
+       
+        
+           // inventorySlots[SelectedSlot].GetComponent<Gun_Data_>().updateAmmo();
+            
+        
     }
 
     void SpawnNewItem(ItemScript item, InventorySlot slot)
@@ -78,16 +106,99 @@ public class Inventory_Manager : MonoBehaviour
     }
 
 
-    public ItemScript GetselectedItem()
+    public ItemScript GetselectedItem(bool use)
     {
+        Debug.Log("valled"+ use);
         InventorySlot slot = inventorySlots[SelectedSlot];
         Inventory_Item iteminslot = slot.GetComponentInChildren<Inventory_Item>();
+        
+
+        if (iteminslot != null) {
+            ItemScript item = iteminslot.item;
+            if (use == true) {
+                iteminslot.count--;
+                if (iteminslot.count <= 0) {
+                    Destroy(iteminslot.gameObject);
+                } 
+                else {
+                    iteminslot.refreshCount();
+                }
+
+            }
+            return item;
+        }
+
+        return null;
+        
+            
+    }
+
+    public void DeleteItems(int amount)
+    {
+
+
+        int total = amount + 1;
+
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+            InventorySlot slot = inventorySlots[i];
+            Inventory_Item iteminslot = slot.GetComponentInChildren<Inventory_Item>(); //check to see if child has item
+            //no item in slot
+            if (iteminslot != null && iteminslot.item.type == itemtype.ammo)
+            {
+                int counter = iteminslot.count;
+                for (int j = 0; j < counter; j++)
+                {
+                    total--;
+                    iteminslot.count--;
+                    if (iteminslot.count <= 0)
+                    {
+
+                        Destroy(iteminslot.gameObject);
+                    }
+
+                }
+                iteminslot.refreshCount();
+
+                if (total <= 0)
+                    return;
+            }
+        }
+
+    }
+
+
+    public Gun_Data_ GetweaponData()
+    {
+        InventorySlot slot = inventorySlots[SelectedSlot];
+        Gun_Data_ iteminslot = slot.GetComponentInChildren<Gun_Data_>();
+
         if (iteminslot != null)
         {
-            return iteminslot.item;
+            return iteminslot;
         }
         else
             return null;
     }
 
+    public int UpdateAmmo()
+    {
+        int totalammo =0 ;
+
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+            InventorySlot slot = inventorySlots[i];
+            Inventory_Item iteminslot = slot.GetComponentInChildren<Inventory_Item>(); //check to see if child has item
+            //no item in slot
+            if (iteminslot != null && iteminslot.item.type == itemtype.ammo)
+            {
+                totalammo += iteminslot.count;
+                
+            }
+        }
+        return totalammo;
+
+    }
 }
+
+

@@ -144,8 +144,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2469734988562176731}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.145, y: -0.055, z: 0}
-  m_LocalScale: {x: 1.746261, y: 2.1724799, z: 1}
+  m_LocalPosition: {x: 0.079, y: 0.034, z: 0}
+  m_LocalScale: {x: 2.28, y: 2.1724799, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7751967019748502016}
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 9
+  _componentIndexCache: 10
   _addedNetworkObject: {fileID: 2663127468043057282}
   _networkObjectCache: {fileID: 2663127468043057282}
   _synchronizeParent: 0
@@ -353,6 +353,7 @@ MonoBehaviour:
   - {fileID: 5870031213454208464}
   - {fileID: 4849123307405223841}
   - {fileID: 9103388447361256910}
+  - {fileID: 8233092511557921872}
   - {fileID: 3509658899479758590}
   SceneTransformProperties:
     Position: {x: 0, y: 0, z: 0}
@@ -378,6 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06357e781d0d7f4d9cef0e1aba57e16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammo: 50
 --- !u!114 &-7858638678634620262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,7 +435,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2663127468043057282}
   _networkObjectCache: {fileID: 2663127468043057282}
   Velocity: {x: 0, y: 0}
-  Speed: 5
+  Speed: 3
   JumpSpeed: 10
   GravityScale: 2
   audio: {fileID: -4475221930014270448}
@@ -494,9 +496,9 @@ MonoBehaviour:
   _componentIndexCache: 6
   _addedNetworkObject: {fileID: 2663127468043057282}
   _networkObjectCache: {fileID: 2663127468043057282}
-  CurrentGun: {fileID: 11400000, guid: b5071487e7c15cd45844ae0cdd0d4604, type: 2}
+  CurrentGun: {fileID: 0}
   FirePoint: {fileID: 6788474591396420827}
-  Gun: {fileID: 4100502775559627870}
+  Gun: {fileID: 2469734988562176731}
 --- !u!61 &-9176175620660801518
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -668,6 +670,7 @@ GameObject:
   - component: {fileID: 2663127468311642262}
   - component: {fileID: 2586001907669337226}
   - component: {fileID: 9103388447361256910}
+  - component: {fileID: 8233092511557921872}
   m_Layer: 6
   m_Name: Body
   m_TagString: Player
@@ -683,8 +686,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2663127468311642248}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.9939852, y: 2.1618693, z: 1}
+  m_LocalPosition: {x: 0, y: -0.001, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2663127468043057285}
@@ -731,7 +734,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 54a0c6354e48006439e888f7aedabd92, type: 3}
+  m_Sprite: {fileID: 1566644267, guid: fc59bcce4c6144f498305fe58d19f722, type: 3}
   m_Color: {r: 0, g: 1, b: 0.9725938, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -783,6 +786,21 @@ MonoBehaviour:
   _synchronizeInterval: 0.1
   _clientAuthoritative: 1
   _sendToOwner: 0
+--- !u!114 &8233092511557921872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2663127468311642248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a94b38bde6b757438dd2335390dfbeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 9
+  _addedNetworkObject: {fileID: 2663127468043057282}
+  _networkObjectCache: {fileID: 2663127468043057282}
 --- !u!1 &3046336782429915093
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,7 +826,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3046336782429915093}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0.03, z: 0}
+  m_LocalPosition: {x: 0.27, y: 0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -883,7 +901,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7751967019748502016
 Transform:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour
        // dir = transform.right;
         Physics2D.IgnoreLayerCollision(6, 7, true);
         // GetComponent<Rigidbody2D>().constraints.
-        Invoke("destroySelf", 2f);
+        Invoke("destroySelf", 3f);
         rb = GetComponent<Rigidbody2D>();
         rb.AddForce(transform.right * 0.05f);
 

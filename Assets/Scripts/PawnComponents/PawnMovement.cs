@@ -57,12 +57,12 @@ public sealed class PawnMovement : NetworkBehaviour
         else
             audio.enabled = false;
 
-        /*
+        
         if (_input.horizontal != 0)
             _animtor.SetFloat("speed", 1);
         else
             _animtor.SetFloat("speed", 0);
-        */
+        
 
 
     }

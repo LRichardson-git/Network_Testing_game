@@ -13,9 +13,9 @@ public class BodyRotation : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (_input.mouseX > 0)
-            transform.localScale = new Vector3(1.23f, 1.55f, 1f);
-        else
-            transform.localScale = new Vector3(-1.23f, -1.55f, 1f);
+        if (_input.horizontal > 0)
+            transform.localScale = new Vector3(2f, 2f, 1f);
+        else if (_input.horizontal < 0)
+            transform.localScale = new Vector3(-2f, 2f, 1f);
     }
 }

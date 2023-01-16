@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1222c630ea64c324b9d790dab5844fc5, type: 3}
+  m_Name: kolibri
+  m_EditorClassIdentifier: 
+  Name: 
+  damage: 50
+  maxDistance: 50
+  speed: 100
+  currentammo: 10
+  magsize: 10
+  magtype: 1
+  firerate: 0.3
+  timetoreload: 0.8
+  reloadTime: 0
+  fire: {fileID: 8300000, guid: 12a2620592d6e5b40969b03e8a2cd5fd, type: 3}

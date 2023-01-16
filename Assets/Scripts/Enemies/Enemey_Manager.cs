@@ -19,6 +19,8 @@ public class Enemey_Manager : NetworkBehaviour
     [SyncVar]
     public bool start = false;
 
+    
+
     public static Enemey_Manager Instance { get; private set; }
 
     public override void OnStartNetwork() //set pawn as reference when spawned
@@ -53,7 +55,8 @@ public class Enemey_Manager : NetworkBehaviour
         if (start == false)
             return;
 
-
+        //debug stop them spawning
+        start = false;
         ticktimer += Time.deltaTime;
 
         if (ticktimer > 1)

@@ -47,6 +47,7 @@ public sealed class PawnInput : NetworkBehaviour //sake of simplicity
         MousePos = Input.mousePosition;
 
         mouseX = Camera.main.ScreenToWorldPoint(MousePos).x;
+        Debug.Log(mouseX);
     }
 
 }

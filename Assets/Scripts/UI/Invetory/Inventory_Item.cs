@@ -9,7 +9,7 @@ public class Inventory_Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     [HideInInspector]
     public ItemScript item;
 
-
+    Gun_Data_ GD;
 
     //drag and drop
     [Header("ui")]
@@ -25,13 +25,21 @@ public class Inventory_Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     private void Start()
     {
         initialiseItem(item);
+
+        if (item.gundata != null)
+        {
+            this.gameObject.AddComponent<Gun_Data_>();
+            GD = GetComponent<Gun_Data_>();
+           // GD = new Gun_Data_(item.gundata.currentammo, item.gundata.currentammo);
+        }
     }
 
     
 
     public void refreshCount()
     {
-        CountText.text = count.ToString();
+        int total = count + 1;
+        CountText.text = total.ToString();
         bool textActive = count > 1;
         CountText.gameObject.SetActive(textActive);
     }
