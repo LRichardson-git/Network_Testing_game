@@ -23,6 +23,11 @@ public sealed class GameManager : NetworkBehaviour
     [SyncVar]
     public bool started;
 
+
+    
+
+
+
     private void Awake()
     {
         Instance = this;
@@ -49,6 +54,10 @@ public sealed class GameManager : NetworkBehaviour
 
             
         }
+
+
+
+
 
         //Debug.Log($"Can Start = {canstart}");
     }

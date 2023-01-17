@@ -14,8 +14,9 @@ public class ItemScript : ScriptableObject
     public bool stackable = true;
 
     public Sprite icon;
-
     public Gun_Data_ gun;
+
+    
   
 }
    public enum itemtype

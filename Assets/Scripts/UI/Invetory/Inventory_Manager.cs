@@ -25,11 +25,14 @@ public class Inventory_Manager : MonoBehaviour
 
     private void Start()
     {
-        changeselectedslot(0);
+        
         foreach (var item in startItems)
         {
             addItem(item);
         }
+
+        changeselectedslot(0);
+        
     }
 
     public bool addItem(ItemScript item)
@@ -108,7 +111,7 @@ public class Inventory_Manager : MonoBehaviour
 
     public ItemScript GetselectedItem(bool use)
     {
-        Debug.Log("valled"+ use);
+        
         InventorySlot slot = inventorySlots[SelectedSlot];
         Inventory_Item iteminslot = slot.GetComponentInChildren<Inventory_Item>();
         

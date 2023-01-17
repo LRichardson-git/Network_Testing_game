@@ -18,7 +18,7 @@ public class GunData : ScriptableObject {
     public int magtype;
     public float firerate;
     public float timetoreload;
-
+    public bool ranged = true;
 
     [HideInInspector]
     public int reloadTime;

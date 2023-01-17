@@ -51,19 +51,19 @@ public sealed class PawnMovement : NetworkBehaviour
 
         transform.position += new Vector3(_input.horizontal, _input.vertical, 0) * Time.deltaTime * Speed;
 
-
+        /*
         if (_input.horizontal != 0 || _input.vertical != 0)
             audio.enabled = true;
         else
             audio.enabled = false;
-
+        */
         
         if (_input.horizontal != 0)
             _animtor.SetFloat("speed", 1);
         else
             _animtor.SetFloat("speed", 0);
         
-
+        
 
     }
 

@@ -10,7 +10,7 @@ public class Enemey_Manager : NetworkBehaviour
     int tick;
     List<GameObject> enemies;
     int wave = 0;
-    int spawning = 2;
+    int spawning = 0; //small for debugging
     int lasttick;
     GameObject enemy;
     AudioSource Audio;
@@ -52,24 +52,24 @@ public class Enemey_Manager : NetworkBehaviour
 
     void FixedUpdate()
     {
-        if (start == false)
+        if (start == false || DayManager.Instance.day == true)
             return;
 
         //debug stop them spawning
-        start = false;
+        //start = false;
         ticktimer += Time.deltaTime;
 
         if (ticktimer > 1)
         {
             ticktimer -= 1;
             tick++;
-            Debug.Log("tick" + tick);
-            Debug.Log("lastick" + lasttick);
+            //Debug.Log("tick" + tick);
+           // Debug.Log("lastick" + lasttick);
             
 
                 if (tick >= lasttick + 8)
                 {
-                spawning += 2;
+                spawning += 0;
 
                 if (IsServer)
                 {
@@ -104,7 +104,7 @@ public class Enemey_Manager : NetworkBehaviour
     [ObserversRpc]
     void spawnWaveClients(List<Vector3> spawns)
     {
-        wave += 2;
+        wave += 0;
         
         
         for (int i = 0; i < spawning; i++)

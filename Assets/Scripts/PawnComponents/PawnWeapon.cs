@@ -22,8 +22,17 @@ public sealed class PawnWeapon : NetworkBehaviour
     [SerializeField]
     private GameObject Gun;
 
+    [SerializeField]
+    private GameObject Axe;
+
     private Inventory_Manager _Inventory;
 
+    bool ranged = true;
+
+    [SerializeField]
+    private Animation MeleeAnim;
+
+    private MeleeWeapon _Weapon;
 
     
     
@@ -38,6 +47,7 @@ public sealed class PawnWeapon : NetworkBehaviour
 
         _Camera = GetComponent<PawnCamera>().myCamera.GetComponent<Camera>();
 
+        _Weapon = GetComponentInChildren<MeleeWeapon>();
 
         _Inventory = Inventory_Manager.instance;
         Projectile = Addressables.LoadAssetAsync<GameObject>("Projectile").WaitForCompletion();
@@ -54,23 +64,38 @@ public sealed class PawnWeapon : NetworkBehaviour
 
         if (!IsOwner) return;
 
+        
+
         if (_Inventory.GetselectedItem(false) != null && _Inventory.GetselectedItem(false).type != itemtype.Weapon)
         {
+            Axe.SetActive(false);
             Gun.SetActive(false);
             return;
         }
-        else
-            Gun.SetActive(true);
 
-        CurrentGun = _Inventory.GetweaponData();
         
+        ranged = _Inventory.GetselectedItem(false).gundata.ranged;
 
         UpdateRotation();
 
+        CurrentGun = _Inventory.GetweaponData();
+        _Weapon.Weapondata = CurrentGun;
 
-      
-
+        if (ranged == true)
+            Ranged();
+        else
+            Melee();
         
+
+    }
+
+
+
+    private void Ranged()
+    {
+
+        Gun.SetActive(true);
+
         if (_TimeUntilNextShot <= 0.0f)
         {
             if (_Input.fire && CurrentGun.ammo > 0)
@@ -79,19 +104,60 @@ public sealed class PawnWeapon : NetworkBehaviour
                 CurrentGun.ammo--;
                 _TimeUntilNextShot = CurrentGun.firerate;
 
-                if (CurrentGun.ammo <= 0 )
+                if (CurrentGun.ammo <= 0)
                 {
                     //start animation
                     Invoke("reload", CurrentGun.reloadTime);
 
                 }
-                
+
             }
         }
         else
-            _TimeUntilNextShot -= Time.deltaTime; 
-
+            _TimeUntilNextShot -= Time.deltaTime;
     }
+
+
+    private void Melee()
+    {
+
+        Axe.SetActive(true);
+
+        if (_TimeUntilNextShot <= 0.0f)
+        {
+            if (_Input.fire)
+            {
+                _TimeUntilNextShot = CurrentGun.firerate;
+                //play animation
+                //MeleeAnim.Play();
+                Axe.transform.localScale = new Vector3(20f, 10f, 1f);
+                Invoke("debugsmall", 0.5f);
+            }
+
+
+        }
+        else
+            _TimeUntilNextShot -= Time.deltaTime;
+    }
+
+
+
+    void debugsmall()
+    {
+        Axe.transform.localScale = new Vector3(3f, 2f, 1f);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -125,9 +191,12 @@ public sealed class PawnWeapon : NetworkBehaviour
 
 
         if (_Input.mouseX > 1000)
-            Gun.transform.localScale = new Vector3(1.6f, 2.17248f, 1f);
+            Gun.transform.localScale = new Vector3(1.7f, 2.17248f, 1f);
         else if (_Input.mouseX < 1000)
-            Gun.transform.localScale = new Vector3(1.6f, -2.17248f, 1f);
+            Gun.transform.localScale = new Vector3(1.7f, -2.17248f, 1f);
+
+        
+
     }
 
 
